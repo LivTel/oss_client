@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<project name="OSS Client" default="jar" basedir=".">
+
+	<description>"Oss JiBX SOAP Client Interfaces"</description>
+
+	<!-- The directories -->
+	<property name="root-dir" value="/home/cjm/workspace/ngat_oss_client" />
+	<property name="class-dir" value="${root-dir}/bin" />
+	<property name="lib-dir" value="${root-dir}/lib" />
+	<property name="deploy-dir" value="/home/dev/bin/javalib"/>
+	<property name="third-party-lib-dir" value="/home/dev/bin/javalib_third_party" />
+
+	<!-- other definitions -->
+
+	<property name="jar-name" value="ngat_new_oss_client"/>
+
+	<!-- Cleanup -->
+
+	<target name="clean" description="Clean out dross">
+		<delete verbose="true">
+			<fileset dir="." includes="**/*~" defaultexcludes="false" />
+		</delete>
+	</target>
+
+	<!-- 2/9/11
+	<input
+		    message="Please enter OSS endpoint for client properties deployment:"
+		    validargs= "ltdev2,lt_tomcat"
+		    addproperty="client_properties_file"
+		    defaultvalue="ltdev2"
+		  />
+	 -->
+	
+	<input
+	    message="Please enter OSS endpoint for client properties deployment:"
+	    validargs= "lt_tomcat,daenerys"
+	    addproperty="client_properties_file"
+	    defaultvalue="lt_tomcat"
+	  />
+
+    <echo message="Client deployment properties file= client.properties.${client_properties_file}"/>
+
+	<!-- Prepare build directories -->
+
+	<target name="prepare" description="Prepare build directories">
+		<echo message="Building: Oss JiBX SOAP Client Interfaces" />
+		<tstamp>
+			<format property="BUILD" pattern="yyyyMMdd_HHmm" locale="en" />
+		</tstamp>
+		<echo message="Build date: ${BUILD}" />
+		
+		<!-- copy relevant properties file into bin and src directories -->
+		<echo message="Deleting old properties files"/>
+		<delete file="${root-dir}/src/client.properties"/>
+		<delete file="${root-dir}/bin/client.properties"/>
+		<echo message="Copying client.properties.${client_properties_file} to client.properties in bin and src directories"/>
+		<copy file="${root-dir}/src/client.properties.${client_properties_file}" tofile="${root-dir}/src/client.properties"/>
+		<copy file="${root-dir}/src/client.properties.${client_properties_file}" tofile="${root-dir}/bin/client.properties"/>
+		
+		<!-- copy jars into lib directory -->
+
+		<copy file="${third-party-lib-dir}/jibx/jibx-extras.jar" todir="${lib-dir}"/>
+		<copy file="${third-party-lib-dir}/jibx/jibx-run.jar" todir="${lib-dir}"/>
+		<copy file="${third-party-lib-dir}/jibx/xpp3.jar" todir="${lib-dir}"/>
+
+		<copy file="${third-party-lib-dir}/jibx_soap/jibx-soap.jar" todir="${lib-dir}"/>
+		
+		<copy file="${third-party-lib-dir}/log4j-1.2.13.jar" todir="${lib-dir}"/>
+		
+		<copy file="${deploy-dir}/ngat_astrometry.jar" todir="${lib-dir}"/>
+		<copy file="${deploy-dir}/ngat_new_oss.jar" todir="${lib-dir}"/>
+		<copy file="${deploy-dir}/ngat_new_phase2.jar" todir="${lib-dir}"/>
+		<copy file="${deploy-dir}/ngat_util.jar" todir="${lib-dir}"/>
+	</target>
+
+
+	<!-- Compile all sources -->
+
+	<target name="javac" depends="prepare" description="Compile sources">
+		
+		<echo message="Ant is using Java version ${ant.java.version}."/>
+		
+		<!--
+		pre, 19/8/13 was this:
+		<javac srcdir="." 
+			destdir="${class-dir}" 
+			debug="on"
+			source="1.5" 
+			target="1.5">
+		-->
+		<!-- then, before 14/5/14 this was included, it was deleted in order to ty and get all the kit running on Java 7 -->
+		<!--
+		<javac srcdir="." 
+			destdir="${class-dir}" 
+			debug="on"
+			source="1.5" 
+			target="1.5"
+			includeantruntime="false"
+			bootclasspath="/usr/java/jdk1.5.0_15/jre/lib/rt.jar">
+			-->
+		<!-- then, it was fine and worked, but I need it all to run under Java 5, so I bunged the source and target 1.6 in again
+			<javac srcdir="." 
+						destdir="${class-dir}" 
+						debug="on">
+						-->
+			<javac srcdir="." 
+								destdir="${class-dir}" 
+								debug="on"
+								source="1.5"
+								target="1.5">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="${lib-dir}">
+					<include name="*.jar" />
+					<exclude name="${jar-name}.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- Deploy to JAR with Jibx bindings and rmi stubs included -->
+
+	<target name="jar" depends="javac" description="Create JAR">
+		<echo message="Build number: ${BUILD}" />
+		<echo message="Creating ${deploy-dir}/${jar-name}.jar" />
+		
+		<!-- deploy jar to javalib dir -->
+		<jar jarfile="${deploy-dir}/${jar-name}.jar" basedir="${class-dir}" update="false" />
+		
+	</target>
+
+</project>

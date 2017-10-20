@@ -1,0 +1,8 @@
+# used by ui client to connect to tomcat webserver hosting oss services
+soap.webappname=ngat_new_oss
+soap.port=8080
+soap.hostname=daenerys
+
+phase2.soap.servicename=phase2-service
+accessmodel.soap.servicename=access-service
+gatekeeper.soap.servicename=gatekeeper-service
