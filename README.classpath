@@ -1,0 +1,17 @@
+The eclipse .classpth file in this directory should have contents similar to the following:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib_third_party/jibx/jibx-extras.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib_third_party/jibx/jibx-run.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib_third_party/jibx_soap/jibx-soap.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib_third_party/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib_third_party/jibx/xpp3.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib/ngat_astrometry.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib/ngat_new_oss.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib/ngat_new_phase2.jar"/>
+	<classpathentry kind="lib" path="/home/dev/bin/javalib/ngat_util.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
