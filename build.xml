@@ -5,7 +5,7 @@
 	<description>"Oss JiBX SOAP Client Interfaces"</description>
 
 	<!-- The directories -->
-	<property name="root-dir" value="/home/cjm/workspace/ngat_oss_client" />
+	<property name="root-dir" value="/home/cjm/eclipse-workspace/oss_client" />
 	<property name="class-dir" value="${root-dir}/bin" />
 	<property name="lib-dir" value="${root-dir}/lib" />
 	<property name="deploy-dir" value="/home/dev/bin/javalib"/>
